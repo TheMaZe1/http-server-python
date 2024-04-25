@@ -14,7 +14,7 @@ def main():
         response = b'HTTP/1.1 200 OK\r\n\r\n'
     elif 'echo' in path:
         body_responce = path.lstrip('/echo/').encode() + b'\r\n'
-        headers_respone = f'HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(body_responce)}\r\n\r\n'.encode()
+        headers_respone = f'HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(body_responce)}\r\n'.encode()
         response = headers_respone + body_responce
     else:
         response = b'HTTP/1.1 404 Not Found\r\n\r\n'
