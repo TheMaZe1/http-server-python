@@ -20,7 +20,7 @@ def client_handler(connection, address, dir=''):
         headers_respone = f'HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(user_agent)}\r\n\r\n'.encode()
         response = headers_respone + f'{user_agent}'.encode()
     elif 'files' in path:
-        filename = path[len('/files/'):].encode()
+        filename = path[len('/files/'):]
         if os.path.exists(dir + '/' + filename):
             with open(dir + '/' + filename, 'rb') as f:
                 data = f.read()
