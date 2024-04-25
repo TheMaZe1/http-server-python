@@ -9,19 +9,20 @@ def main():
     request_client = conn.recv(1024).decode()
     method_http, path, version = request_client.split('\r\n')[0].split()
 
-    headers_respone = b'HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 3\r\n\r\n'
+  
     body_responce = path.split('/')[-1].encode()
+    headers_respone = f'HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(body_responce)}\r\n\r\n'.encode()
 
     if path == '/':
-        conn.sendall(b'HTTP/1.1 200 OK\r\n\r\n')
+        response = b'HTTP/1.1 200 OK\r\n\r\n'
     elif 'echo' in path:
         headers_respone = b'HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 3\r\n\r\n'
         body_responce = path.lstrip('/echo/').encode() + b'\r\n'
-        conn.sendall(headers_respone + body_responce)
+        response = headers_respone + body_responce
     else:
-        conn.sendall(b'HTTP/1.1 404 Not Found\r\n\r\n')
+        response = b'HTTP/1.1 404 Not Found\r\n\r\n'
 
-    
+    conn.sendall(response)
     conn.close()
 
 if __name__ == "__main__":
