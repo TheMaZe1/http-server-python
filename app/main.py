@@ -19,7 +19,7 @@ def main():
         response = headers_respone + body_responce
     elif 'user-agent' in path:
         headers_respone = f'HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(user_agent)}\r\n\r\n'.encode()
-        response = headers_respone + f'{user_agent}'
+        response = headers_respone + f'{user_agent}'.encode()
     else:
         response = b'HTTP/1.1 404 Not Found\r\n\r\n'
 
