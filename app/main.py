@@ -13,13 +13,13 @@ def main():
     body_responce = path.split('/')[-1].encode()
 
     if path == '/':
-        conn.send('HTTP/1.1 200 OK\r\n')
+        conn.send(b'HTTP/1.1 200 OK\r\n')
     elif 'echo' in path:
         headers_respone = b'HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 3\r\n\r\n'
         body_responce = path.split('/')[-1].encode()
         conn.send(headers_respone + body_responce)
     else:
-        conn.send('HTTP/1.1 404 Not Found\r\n')
+        conn.send(b'HTTP/1.1 404 Not Found\r\n')
 
     
     conn.close()
