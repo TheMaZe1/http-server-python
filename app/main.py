@@ -9,13 +9,10 @@ def main():
     request_client = conn.recv(1024).decode()
     method_http, path, version = request_client.split('\r\n')[0].split()
 
-    ok_res = b"HTTP/1.1 200 OK\r\n\r\n"
-    not_found_res = b"HTTP/1.1 404 Not Found\r\n\r\n"
+    headers_respone = b'HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 3\r\n\r\n'
+    body_responce = b'abc'
 
-    if path == '/':
-        conn.send(ok_res)
-    else:
-        conn.send(not_found_res)
+    conn.send(headers_respone + body_responce)
     
     conn.close()
 
