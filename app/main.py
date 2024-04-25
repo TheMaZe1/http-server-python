@@ -14,9 +14,9 @@ def main():
     if path == '/':
         response = b'HTTP/1.1 200 OK\r\n\r\n'
     elif 'echo' in path:
-        body_responce = path.lstrip('/echo/').encode()
-        headers_respone = f'HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(body_responce)}\r\n\r\n'.encode()
-        response = headers_respone + body_responce
+        body_response = path[len('/echo/'):].encode()
+        headers_respone = f'HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(body_response)}\r\n\r\n'.encode()
+        response = headers_respone + body_response
     elif 'user-agent' in path:
         headers_respone = f'HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(user_agent)}\r\n\r\n'.encode()
         response = headers_respone + f'{user_agent}'.encode()
