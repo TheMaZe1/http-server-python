@@ -7,8 +7,9 @@ def main():
 
     conn, addr = server_socket.accept() # wait for client
     request_client = conn.recv(1024).decode()
-    method_http, path, version = request_client.split('\r\n')[0].split()
-
+    headers = request_client.split('\r\n')
+    method_http, path, version = headers[0].split()
+    user_agent = headers[2].split()[1]
 
     if path == '/':
         response = b'HTTP/1.1 200 OK\r\n\r\n'
@@ -16,6 +17,9 @@ def main():
         body_responce = path.lstrip('/echo/').encode()
         headers_respone = f'HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(body_responce)}\r\n\r\n'.encode()
         response = headers_respone + body_responce
+    elif 'user-agent' in path:
+        headers_respone = f'HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(user_agent)}\r\n\r\n'.encode()
+        response = headers_respone + f'{user_agent}'
     else:
         response = b'HTTP/1.1 404 Not Found\r\n\r\n'
 
