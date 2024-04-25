@@ -1,12 +1,9 @@
 import socket
+from threading import Thread
 
+def client_handler(connection, address):
 
-def main():
-    print("Logs from your program will appear here!")
-    server_socket = socket.create_server(("localhost", 4221))
-
-    conn, addr = server_socket.accept() # wait for client
-    request_client = conn.recv(1024).decode()
+    request_client = connection.recv(1024).decode()
     headers = request_client.split('\r\n')
     method_http, path, version = headers[0].split()
     user_agent = headers[2].split()[1]
@@ -23,8 +20,18 @@ def main():
     else:
         response = b'HTTP/1.1 404 Not Found\r\n\r\n'
 
-    conn.sendall(response)
-    conn.close()
+    connection.sendall(response)
+    connection.close()
+
+
+def main():
+    print("Logs from your program will appear here!")
+    server_socket = socket.create_server(("localhost", 4221))
+
+    while True:
+        conn, addr = server_socket.accept() # wait for client
+        thread = Thread(target=client_handler, args=(conn, addr))
+        thread.start()
 
 if __name__ == "__main__":
     main()
