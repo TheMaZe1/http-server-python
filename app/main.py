@@ -58,17 +58,12 @@ def post_handler(connection, data):
         dir = sys.argv[2]
 
     filename = path[len('/files/'):]
-    if os.path.exists(dir):
-        with open(dir + '/' + filename, 'wb') as f:
-            f.write(data.split('\r\n\r\n')[1])
-            headers_respone = f'HTTP/1.1 201 OK\r\n\r\n'.encode()
-            response = headers_respone
-    else:
+    if not os.path.exists(dir):
         os.mkdir(dir)
-        with open(dir + '/' + filename, 'wb') as f:
-            f.write(data.split('\r\n\r\n')[1])
-            headers_respone = f'HTTP/1.1 201 OK\r\n\r\n'.encode()
-            response = headers_respone
+    with open(dir + '/' + filename, 'wb') as f:
+        f.write(data.split('\r\n\r\n')[1].encode())
+        headers_respone = f'HTTP/1.1 201 OK\r\n\r\n'.encode()
+        response = headers_respone
     return response
 
 def main():
